@@ -17,6 +17,23 @@ public class Node {
   }
 }
 
+public class Edge {
+  public Node from;
+  public Node to;
+  public color c;
+  
+  public Edge(Node from, Node to, color c) {
+    this.from = from;
+    this.to = to;
+    this.c = c;
+  }
+  
+  public void draw() {
+    stroke(this.c);
+    line(this.from.x, this.from.y, this.to.x, this.to.y);
+  }
+}
+
 void setup() {
   PImage img;
   img = loadImage("facebook.png");
