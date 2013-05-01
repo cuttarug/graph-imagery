@@ -1,3 +1,22 @@
+public class Node {
+  public int x;
+  public int y;
+  private int radius;
+  private color c;
+  
+  public Node(int i, int j, int radius, color c) {
+    this.x = i;
+    this.y = j;
+    this.radius = radius;
+    this.c = c;
+  }
+  
+  public void draw() {
+    stroke(this.c);
+    ellipse(this.x, this.y, this.radius, this.radius);
+  }
+}
+
 void setup() {
   PImage img;
   img = loadImage("facebook.png");
@@ -17,8 +36,8 @@ void setup() {
     
     float b = brightness(img.get(x,y));
     if(b > 200) {
-      stroke(255);
-      ellipse(x,y, 2,2);
+      Node n = new Node(x,y,2,255);
+      n.draw();
       brightNodes--;
     }
   }
@@ -29,8 +48,8 @@ void setup() {
     
     float b = brightness(img.get(x,y));
     if(b < 200) {
-      stroke(27,199,245);
-      ellipse(x,y, 2,2);
+      Node n = new Node(x, y, 2, color(27,199,245));
+      n.draw();
       darkNodes--;
     }
   }
