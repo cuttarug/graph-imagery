@@ -38,40 +38,32 @@ public class Edge {
 
 void setup() {
   PImage img;
-  img = loadImage("../facebook.png");
+  img = loadImage("facebook.png");
   img.loadPixels();
   
   size(img.width, img.height);
   colorMode(RGB);
   background(0);
   smooth();
-
+  
   int numBrightNodes = 8000;
   int numDarkNodes = 3000;  
   Node[] brightNodes = new Node[numBrightNodes];
   Node[] darkNodes = new Node[numDarkNodes];
   
   int brightCounter = 0;
-  while(brightCounter < numBrightNodes) {
+  int darkCounter = 0;
+  while(brightCounter < numBrightNodes || darkCounter < numDarkNodes) {
     int x = (int) random(img.width);
     int y = (int) random(img.height);
-    
     float b = brightness(img.get(x,y));
-    if(b > 200) {
+    if(b > 200 && brightCounter < numBrightNodes) {
       brightNodes[brightCounter] = new Node(x,y,2,255);
       brightCounter++;
     }
-  }
-  
-  int darkCounter = 0;
-  while(darkCounter < numDarkNodes) {
-    int x = (int) random(img.width);
-    int y = (int) random(img.height);
-    
-    float b = brightness(img.get(x,y));
-    if(b < 200) {
+    else if(b < 200 && darkCounter < numDarkNodes) {
       darkNodes[darkCounter] = new Node(x, y, 2, color(27,199,245));
-      darkCounter++;
+      darkCounter++;    
     }
   }
   
@@ -114,6 +106,4 @@ void setup() {
   for(int i=0; i<numDarkNodes; i++) {
     darkNodes[i].draw();
   }
-  
-  save("output.png");
 }
