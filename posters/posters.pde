@@ -27,6 +27,16 @@ public class Node {
     stroke(this.c);
     ellipse(this.x, this.y, this.r, this.r);
   }
+  
+  /**
+   * Determines whether this node and another node intersect.
+   * Two nodes intersect if sum of radii >= distance between centers.
+   */
+  public boolean intersects(Node n) {
+    double sumRadii = Math.pow((this.r + n.getRadius()), 2);
+    double distanceCenters = Math.pow((this.x - n.getX()), 2) + Math.pow((this.y - n.getY()), 2);
+    return sumRadii >= distanceCenters;
+  }
 }
 
 void setup() {
