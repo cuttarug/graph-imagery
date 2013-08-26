@@ -37,24 +37,37 @@ public class Node {
     double distanceCenters = Math.pow((this.x - n.getX()), 2) + Math.pow((this.y - n.getY()), 2);
     return sumRadii >= distanceCenters;
   }
+  
+  /**
+   * Find the distance between this node and another node
+   */
+  public double getDistance(Node n) {
+    double sumOfSquares = Math.pow((this.x - n.getX()), 2) + Math.pow((this.y - n.getY()), 2);
+    return Math.sqrt(sumOfSquares);
+  }
 }
 
 void setup() {
-  int windowWidth = 500;
-  int windowHeight = 500;
+  int windowWidth = 960;
+  int windowHeight = 609;
   color backgroundColor = color(59, 89, 152);
+  int padding = 5;
   
-  int numNodes = 250;
+  int numNodes = 600;
   float nodeSize = 7.0;
   color nodeColor = color(255);
   
+  double maxNodeDistance = 50.0;
+  color edgeColor = color(255);
+  
   /***/
   
-  size(windowHeight, windowWidth);
+  size(windowWidth, windowHeight);
   colorMode(RGB);
   background(backgroundColor);
   smooth();
   
+  // Draw a set amount of nodes at random locations, and make sure they don't intersect
   Node[] nodes = new Node[numNodes];
   int nodeCounter = 0;
   outer:
@@ -73,6 +86,17 @@ void setup() {
     nodeCounter++;
   }
   
+  // Draw edges between nodes that are set distance apart
+  for(int i=0; i<numNodes; i++) {
+    for(int j=i; j<numNodes; j++) {
+      if(nodes[i].getDistance(nodes[j]) < maxNodeDistance) {
+        stroke(edgeColor);
+        line(nodes[i].getX(), nodes[i].getY(), nodes[j].getX(), nodes[j].getY());
+      }
+    }
+  }
+  
+  // Draw all nodes
   for(int i=0; i<numNodes; i++) {
     nodes[i].drawNode();
   }
