@@ -77,7 +77,7 @@ void setup() {
     Node n = new Node(x, y, nodeSize, nodeColor);
 
     for(int j=0; j<nodeCounter; j++) {
-      if(nodes[j].intersects(n)) {;
+      if(nodes[j].intersects(n)) {
         continue outer;
       }
     }
