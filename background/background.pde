@@ -51,9 +51,9 @@ void setup() {
   int windowWidth = 960;
   int windowHeight = 609;
   color backgroundColor = color(59, 89, 152);
-  int padding = 5;
+  int padding = -20;
   
-  int numNodes = 600;
+  int numNodes = 680;
   float nodeSize = 7.0;
   color nodeColor = color(255);
   
@@ -100,4 +100,6 @@ void setup() {
   for(int i=0; i<numNodes; i++) {
     nodes[i].drawNode();
   }
+  
+  //save("background.png");
 }
