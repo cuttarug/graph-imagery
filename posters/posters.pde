@@ -44,10 +44,36 @@ void setup() {
   int windowHeight = 500;
   color backgroundColor = color(59, 89, 152);
   
+  int numNodes = 250;
+  float nodeSize = 7.0;
+  color nodeColor = color(255);
+  
   /***/
   
   size(windowHeight, windowWidth);
   colorMode(RGB);
   background(backgroundColor);
   smooth();
+  
+  Node[] nodes = new Node[numNodes];
+  int nodeCounter = 0;
+  outer:
+  while(nodeCounter<numNodes) {
+    float x = random(padding, windowWidth-padding);
+    float y = random(padding, windowHeight-padding);
+    Node n = new Node(x, y, nodeSize, nodeColor);
+
+    for(int j=0; j<nodeCounter; j++) {
+      if(nodes[j].intersects(n)) {;
+        continue outer;
+      }
+    }
+
+    nodes[nodeCounter] = n;
+    nodeCounter++;
+  }
+  
+  for(int i=0; i<numNodes; i++) {
+    nodes[i].drawNode();
+  }
 }
