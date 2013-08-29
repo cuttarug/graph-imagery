@@ -54,15 +54,12 @@ void setup() {
   color backgroundColor = color(233, 228, 209);
   int padding = 40;
   
-  int numNodes = 750;
   float nodeSize = 3.0;
   color nodeColor = color(35, 34, 31);
   
   color edgeColor = color(35, 34, 31, 30);
   
   int gridSpacing = 20;
-  double minNodeDist = 15.0;
-  double maxNodeDist = 75.0;
   
   /***/
   
@@ -71,64 +68,65 @@ void setup() {
   background(backgroundColor);
   smooth();
   
-  // Set up a dimishing grid
   ArrayList<Node> nodes = new ArrayList();
-  int numOmits = 2;
-  for(int i=padding; i<windowWidth-padding; i+=gridSpacing) {
+  
+  // draw a perfect grid up till breakpoint
+  for(int i=0; i<5; i++) {
+    int x = i*gridSpacing + padding;
     
-    ArrayList omits = new ArrayList();
-    for(int k=0; k<numOmits; k++) {
-      int randPos = (int) random(gridSpacing) * gridSpacing + padding;
-      omits.add(randPos);
-    }
+    int omit1 = (int) random(20);
+    int omit2 = (int) random(20);
     
-    for(int j=padding; j<windowHeight-padding; j+=gridSpacing) {
-      // randomly omit nodes
-      if(omits.contains(j)) {
+    for(int j=0; j<20; j++) {
+      if(j == omit1 || j == omit2) {
         continue;
       }
-      // save nodes in a list
-      Node n = new Node(i, j, nodeSize, nodeColor);
+      int y = j*gridSpacing + padding;
+      Node n = new Node(x, y, nodeSize, nodeColor);
       nodes.add(n);
-      numNodes--;
     }
-    numOmits++;
   }
   
-  // Set up nodes at random locations, and make sure they don't intersect
-  outer:
-  while(numNodes > 0) {
-    int x = (int) random(padding*4, windowWidth-padding);
-    int y = (int) random(padding/1.2, windowHeight-padding/1.2);
+  // draw a messy grid after breakpoint
+  for(int i=5; i<40; i++) {
+    int x = i*gridSpacing + padding;
     
-    Node n = new Node(x, y, nodeSize, nodeColor);
+    int omit1 = (int) random(20);
+    int omit2 = (int) random(20);
+    int omit3 = (int) random(20);
+    int omit4 = (int) random(20);
+    //int omit5 = (int) random(20);
     
-    for(int j=0; j<nodes.size(); j++) {
-      if(nodes.get(j).intersects(n)) {
-        continue outer;
+    for(int j=0; j<20; j++) {
+      if(j == omit1 || j == omit2 || j == omit3 || j == omit4 ){//|| j == omit5) {
+        continue;
       }
+      int y = j*gridSpacing + padding;
+      int randX = (int) random(-8,8);
+      int randY = (int) random(-8,8);
+      Node n = new Node(x+randX, y+randY, nodeSize, nodeColor);
+      nodes.add(n);
     }
-    
-    nodes.add(n);
-    numNodes--;
   }
   
   // Draw edges between nodes that are a diminishing distance apart
-  System.out.println(nodes.size());
+  double maxNodeDist = 70.0;
   for(int i=0; i<nodes.size(); i++) {
     for(int j=0; j<nodes.size(); j++) {
       Node a = nodes.get(i);
       Node b = nodes.get(j);
-      if(a.getDistance(b) > minNodeDist && a.getDistance(b) < Math.floor(maxNodeDist)) {
+      if(a.getDistance(b) > 20 && a.getDistance(b) < maxNodeDist) {
         stroke(edgeColor);
         line(a.getX(), a.getY(), b.getX(), b.getY());
       }
     }
-    maxNodeDist -= 0.08;
+    maxNodeDist -= 0.068;
   }
   
   // Draw nodes
   for(int i=0; i<nodes.size(); i++) {
     nodes.get(i).drawNode();
   }
+  
+  //save("gradient.png");
 }
